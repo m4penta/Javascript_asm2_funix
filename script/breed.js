@@ -3,6 +3,7 @@ const submitBtn = document.getElementById("submit-btn");
 const inputBleed = document.getElementById('input-breed');
 const  inputType = document.getElementById('input-type');
 const tableBodyEl = document.getElementById("tbody");
+const deleteBtn = document.getElementById("delete");
 function getFromStorage(key){
     return JSON.parse(localStorage.getItem(key));
 }
@@ -12,12 +13,31 @@ function saveToStorage(key, value){
 }
 
 
-const Pet = getFromStorage("petArr");
-console.log(Pet)
 const Breed = getFromStorage('breedArr')
-
+renderTableData(Breed)
 console.log(Breed)
 
+  submitBtn.addEventListener("click", function (e) {
+    const data = {
+      breed: inputBleed.value,
+      type: inputType.value,
+    };
+    console.log(data);
+    //valid du lieu
+    const validate = validateData(data);
+    if (validate) {
+      //Thêm thú cưng vào danh sách
+      
+      let dataRender = getFromStorage('breedArr')
+      dataRender.push(data)
+      console.log(dataRender)
+     saveToStorage("breedArr", dataRender);
+       renderTableData(dataRender);
+        clearInput();
+       
+     
+    }
+  });
 
 function validateData(data) {
     let isValidate = true
@@ -37,26 +57,28 @@ function clearInput() {
   }
   function renderTableData(bleedArr) {
     tableBodyEl.innerHTML = "";
+    if(bleedArr !== undefined){
       for (let i = 0; i < bleedArr.length; i++) {
-        console.log(bleedArr[i].bleed)
-        let date = bleedArr[i].date
-        date = new Date(bleedArr[i].date);
 
-        if (isDate(date)) {
-            const row = document.createElement("tr");
+        if(bleedArr !== null){
+          const row = document.createElement("tr");
             row.innerHTML = `
-          <tr>
-                                    <th scope="row">${bleedArr[i].id}</th>
+          <tr>                      
+                                    <th scope="row">${[i]}</th>
+                                    <td>${bleedArr[i].breed}</td>
                                     <td>${bleedArr[i].type}</td>
-                                    <td>${bleedArr[i].bleed}</td>
                                     <td><button type="button" class="btn btn-danger" 
                                     onclick="deletePet('${bleedArr[i].id}')" >Delete</button>
                                     </td>
                                 </tr>
         `;
             tableBodyEl.appendChild(row);
-        }else{console.log("Không render")}
-
-    }
+        }else{
+          console.log('lỗi')
+        }
     
+           
+      }
+    }
+      
   }

@@ -89,7 +89,8 @@ function isDate(obj) {
   }
 function renderTableData(petArr) {
     tableBodyEl.innerHTML = "";
-      for (let i = 0; i < petArr.length; i++) {
+    if(petArr !== undefined){
+       for (let i = 0; i < petArr.length; i++) {
         console.log(petArr[i].bleed)
         let date = petArr[i].date
         date = new Date(petArr[i].date);
@@ -141,9 +142,12 @@ function renderTableData(petArr) {
         }else{console.log("Không render")}
 
     }
+    }
+     
     
   }
-  renderTableData(petArr);
+var pet = getFromStorage('petArr')
+renderTableData(pet)
   submitBtn.addEventListener("click", function (e) {
     const data = {
       id: idInput.value,
@@ -169,7 +173,7 @@ function renderTableData(petArr) {
       let dataRender = getFromStorage('petArr')
       dataRender.push(data)
       console.log(dataRender)
-     
+      saveToStorage("breedArr", dataRender);
        renderTableData(dataRender);
       clearInput();
     }
@@ -202,14 +206,24 @@ function saveToStorage(key, value){
 
 
   function deletePet(petId) {
+
     // Confirm before deletePet
     const isDeleted = confirm("Are you sure?");
-    if (isDeleted) {
-      for (let i = 0; i < petArr.length; i++) {
-        if (petId === petArr[i].id) {
-          petArr.splice(i, 1);
-          renderTableData(petArr);
+    if(pet !== undefined){
+      if (isDeleted) {
+      for (let i = 0; i < pet.length; i++) {
+        if (petId === pet[i].id) {
+          console.log(pet)
+         const dlData = pet.splice(i, 1)
+         if(dlData !== undefined){
+          const data = saveToStorage('petArr',dlData)
+          console.log(data)
+          renderTableData(data);
+         }
+          
         }
       }
     }
+    }
+    
   }

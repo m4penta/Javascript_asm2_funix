@@ -39,18 +39,22 @@ const data2 = {
 };
 
 const breed1 ={
+    id:"1",
     breed : "mixed breed",
     type: "dog"
 }
 const breed2 ={
+    id:"2",
     breed : "tabby",
     type: "dog"
 }
 const breed3 ={
+    id:"3",
     breed : "Chó Phú Quốc",
     type: "dog"
 }
 const breed4 ={
+    id:"4",
     breed : "Mào mướp",
     type: "dog"
 }
